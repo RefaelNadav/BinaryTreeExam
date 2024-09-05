@@ -78,6 +78,7 @@ namespace BinaryTreeExam
         //פונקציה ציבורית למציאת הגנה מתאימה להתקפה לפי החומרה של ההתקפה
         public void FindDefenses(int severity)
         {
+            Thread.Sleep(2000);
             int? minSeverity = GetMin();
 
             if(severity < minSeverity)
