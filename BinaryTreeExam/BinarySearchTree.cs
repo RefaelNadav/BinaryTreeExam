@@ -38,5 +38,13 @@ namespace BinaryTreeExam
             return node;
 
         }
+
+        public void DisplayRoot()
+        {
+            if(Root != null)
+            {
+                Console.WriteLine($"min: {Root.Right.MinSeverity}, max: {Root.Right.MaxSeverity}, Defenses: {Root.Defenses.Count().ToString()}");
+            }
+        }
     }
 }
