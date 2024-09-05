@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace BinaryTreeExam
 {
@@ -20,6 +21,7 @@ namespace BinaryTreeExam
             Root = RecursiveInsert(Root, data);
         }
 
+        //o(log(n))
         private Node RecursiveInsert(Node node, NodeJson data)
         {
             if (node == null)
@@ -39,12 +41,33 @@ namespace BinaryTreeExam
 
         }
 
-        public void DisplayRoot()
+
+        public void PrintTree()
         {
-            if(Root != null)
-            {
-                Console.WriteLine($"min: {Root.Right.MinSeverity}, max: {Root.Right.MaxSeverity}, Defenses: {Root.Defenses.Count().ToString()}");
-            }
+            //Console.WriteLine($"Root: [{Root.MinSeverity}-{Root.MaxSeverity}] Defenses: {Root.Defenses[0]}, {Root.Defenses[1]}");
+            PrintTree(Root, "", true);
         }
+        private void PrintTree(Node node, string indent, bool last)
+        {
+            if (node != null)
+            {
+                Console.Write(indent);
+                if (last)
+                {
+                    Console.Write("Right ");
+                    indent += "   ";
+                }
+                else
+                {
+                    Console.Write("Left ");
+                    indent += "|----";
+                }
+                Console.WriteLine($"Child: [{node.MinSeverity}-{node.MaxSeverity}] Defenses: {node.Defenses[0]}, {node.Defenses[1]}");
+
+                //Console.WriteLine();
+                PrintTree(node.Left, indent, false);
+                PrintTree(node.Right, indent, true);
+            }
+        }          
     }
 }

@@ -30,13 +30,16 @@ class Program
         }
 
         BinarySearchTree defenceTree = new BinarySearchTree();
+        //insert nodes to tree
+        //o(n)
         foreach (NodeJson node in nodes)
         {
             defenceTree.Insert(node);
             //Console.WriteLine(node.MinSeverity.ToString(), node.MaxSeverity.ToString());
         }
 
-        defenceTree.DisplayRoot();
+        defenceTree.PrintTree();
+        //defenceTree.DisplayRoot();
 
     }
 }
