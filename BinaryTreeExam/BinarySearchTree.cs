@@ -12,16 +12,20 @@ namespace BinaryTreeExam
     {
         private Node Root;
 
+        //consructor
+        //o(1)
         public BinarySearchTree()
         {
             Root = null;
         }
 
+        //פונקציה להוספת הגנה מבחוץ
         public void Insert(NodeJson data)
         {
             Root = RecursiveInsert(Root, data);
         }
 
+        //פונקציה רקורסיבית פנימית למציאת המקום שאליו מןסיף את הצומת
         //o(log(n))
         private Node RecursiveInsert(Node node, NodeJson data)
         {
@@ -39,10 +43,9 @@ namespace BinaryTreeExam
                 node.Right = RecursiveInsert(node.Right, data);
             }
             return node;
-
         }
 
-
+        //פונקציה ציבורית להדפסת העץ
         public void PrintTree()
         {
             //Console.WriteLine($"Root: [{Root.MinSeverity}-{Root.MaxSeverity}] Defenses: {Root.Defenses[0]}, {Root.Defenses[1]}");
@@ -63,16 +66,16 @@ namespace BinaryTreeExam
                 else
                 {
                     Console.Write("Left ");
-                    indent += "|----";
+                    indent += "    ";
                 }
                 Console.WriteLine($"Child: [{node.MinSeverity}-{node.MaxSeverity}] Defenses: {node.Defenses[0]}, {node.Defenses[1]}");
 
-                //Console.WriteLine();
                 PrintTree(node.Left, indent, false);
                 PrintTree(node.Right, indent, true);
             }
         }
 
+        //פונקציה ציבורית למציאת הגנה מתאימה להתקפה לפי החומרה של ההתקפה
         public void FindDefenses(int severity)
         {
             int? minSeverity = GetMin();
@@ -94,27 +97,29 @@ namespace BinaryTreeExam
             }
         }
 
-        //o(n)
+        //o(log(n))
         private static Node FindDefensesRecursive(Node node, int severity)
         {
             if (node == null)
             {
                 return null;
             }
-
+            //אם החומרה קטנה מהמינימום של הגנה קורא לפונקציה עם הילד השמאלי
             if (node.MinSeverity > severity)
             {
                 return FindDefensesRecursive(node.Left, severity);
             }
+            //אם החומרה גדולה מהמקסימום של הגנה קורא לפונקציה עם הילד הימני
             else if (node.MaxSeverity < severity) 
             {               
                 return FindDefensesRecursive(node.Right, severity);
             }
+            //אם בתוך הטווח מחזיר את הצומת
             else if (node.MinSeverity <= severity && node.MaxSeverity >= severity)
             {
                 return node;
             }
-
+            //  null אם אין הגנה בטווח של ההתקפה מחזיר 
             else
             {
                 return null;
@@ -122,7 +127,9 @@ namespace BinaryTreeExam
 
         }
 
-        public int? GetMin()
+        //פונקציה למציאת מינימום של העץ
+        //o(n)
+        private int? GetMin()
         {
             if (Root == null)
             {

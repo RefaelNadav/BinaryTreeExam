@@ -21,28 +21,30 @@ class Program
         //searchTree.DisplayRoot();
 
 
-        List<NodeJson> nodes = new List<NodeJson>();
+        List<NodeJson> nodes = new List<NodeJson>(); // רשימה של כל הצמתים
 
+        //נתיב של הקובץ הגנות 
         string filePath = "C:\\Users\\rn385\\OneDrive\\שולחן העבודה\\הכשרה קודקוד\\c#\\BinaryTreeExam\\BinaryTreeExam\\defenceStrategiesBalanced.json";
 
+        //חילוץ של ההגנות לרשימה
         using (StreamReader r = new StreamReader(filePath))
         {
             string json = r.ReadToEnd();
             nodes = JsonSerializer.Deserialize<List<NodeJson>>(json);
         }
 
-        BinarySearchTree defenceTree = new BinarySearchTree();
+        BinarySearchTree defenceTree = new BinarySearchTree(); //יצירת עץ של הגנות
+
         //insert nodes to tree
         //o(n)
         foreach (NodeJson node in nodes)
         {
             defenceTree.Insert(node);
-            //Console.WriteLine(node.MinSeverity.ToString(), node.MaxSeverity.ToString());
         }
 
-        //defenceTree.PrintTree();
-        //defenceTree.DisplayRoot();
+        defenceTree.PrintTree(); //הדפסה של העץ
 
+        //יצירת רשימה של איומים וחילוץ האיומים
         List<Threat> threats = new List<Threat>();
 
         string fileThreatsPath = "C:\\Users\\rn385\\OneDrive\\שולחן העבודה\\הכשרה קודקוד\\c#\\BinaryTreeExam\\BinaryTreeExam\\threats.json";
@@ -52,8 +54,9 @@ class Program
             string json = r.ReadToEnd();
             threats = JsonSerializer.Deserialize<List<Threat>>(json);
         }
-        //Console.WriteLine(threats.Count.ToString());
 
+        //חישוב החומרה של האיום
+        //o(1)
         int CalculateSeverity(Threat threat)
         {
             int targetValue;
@@ -82,6 +85,8 @@ class Program
             return severity;
         }
 
+        // הפעלת האיומים ומציאת הגנות מתאימות
+        Thread.Sleep(4000);
         foreach (var item in threats)
         {
             int severity = CalculateSeverity(item);
