@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -47,6 +48,8 @@ namespace BinaryTreeExam
             //Console.WriteLine($"Root: [{Root.MinSeverity}-{Root.MaxSeverity}] Defenses: {Root.Defenses[0]}, {Root.Defenses[1]}");
             PrintTree(Root, "", true);
         }
+
+        //o(n)
         private void PrintTree(Node node, string indent, bool last)
         {
             if (node != null)
@@ -68,6 +71,71 @@ namespace BinaryTreeExam
                 PrintTree(node.Left, indent, false);
                 PrintTree(node.Right, indent, true);
             }
-        }          
+        }
+
+        public void FindDefenses(int severity)
+        {
+            int? minSeverity = GetMin();
+
+            if(severity < minSeverity)
+            {
+                Console.WriteLine("Attack severity is below the threshold. Attack is ignored");
+            }
+            Node defenses = FindDefensesRecursive(Root, severity);
+            if (defenses == null)
+            {
+                Console.WriteLine("No suitable defence was found!. Brace for impact");
+            }
+            else
+            {
+                Console.WriteLine(defenses.Defenses[0]);
+                Thread.Sleep(2000);
+                Console.WriteLine(defenses.Defenses[1]);
+            }
+        }
+
+        //o(n)
+        private static Node FindDefensesRecursive(Node node, int severity)
+        {
+            if (node == null)
+            {
+                return null;
+            }
+
+            if (node.MinSeverity > severity)
+            {
+                return FindDefensesRecursive(node.Left, severity);
+            }
+            else if (node.MaxSeverity < severity) 
+            {               
+                return FindDefensesRecursive(node.Right, severity);
+            }
+            else if (node.MinSeverity <= severity && node.MaxSeverity >= severity)
+            {
+                return node;
+            }
+
+            else
+            {
+                return null;
+            }
+
+        }
+
+        public int? GetMin()
+        {
+            if (Root == null)
+            {
+                return null;
+            }
+
+            Node curr = Root;
+            while (curr.Left != null)
+            {
+                curr = curr.Left;
+            }
+            return curr.MinSeverity;
+        }
+
     }
 }
